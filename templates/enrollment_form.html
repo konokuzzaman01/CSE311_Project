@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Enroll Student{% endblock %}
+
+{% block content %}
+<h2 class="fw-bold mb-3">Enroll Student</h2>
+
+<form method="POST" action="{{ url_for('enrollment_form') }}">
+  <div class="mb-3">
+    <label for="student_id" class="form-label">Student</label>
+    <select name="student_id" id="student_id" class="form-select" required>
+      <option value="">Select Student</option>
+      {% for s in students %}
+      <option value="{{ s.student_id }}">{{ s.student_name }}</option>
+      {% endfor %}
+    </select>
+  </div>
+
+  <div class="mb-3">
+    <label for="class_id" class="form-label">Class</label>
+    <select name="class_id" id="class_id" class="form-select" required>
+      <option value="">Select Class</option>
+      {% for c in classes %}
+      <option value="{{ c.class_id }}">{{ c.class_name }}</option>
+      {% endfor %}
+    </select>
+  </div>
+
+  <div class="mb-3">
+    <label for="section_id" class="form-label">Section</label>
+    <select name="section_id" id="section_id" class="form-select" required>
+      <option value="">Select Section</option>
+      {% for sec in sections %}
+      <option value="{{ sec.section_id }}">{{ sec.section_name }}</option>
+      {% endfor %}
+    </select>
+  </div>
+
+  <button type="submit" class="btn btn-success">Enroll</button>
+  <a href="{{ url_for('enrollments') }}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}

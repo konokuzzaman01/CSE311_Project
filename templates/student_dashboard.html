@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Student Dashboard</h2>
+
+<div class="card p-3 mb-3">
+    <h4>Enrollment</h4>
+    {% if enrollment %}
+        <p>Class: {{ enrollment.class_name }} | Section: {{ enrollment.section_name }} | Admission Date: {{ enrollment.admission_date }}</p>
+    {% else %}
+        <p class="text-warning">Not enrolled in any class yet.</p>
+    {% endif %}
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card p-3 mb-3">
+            <h4>Marks</h4>
+            <table class="table table-sm table-striped mt-2">
+                <thead><tr><th>Exam</th><th>Subject</th><th>Marks</th></tr></thead>
+                <tbody>
+                    {% for m in marks %}
+                    <tr>
+                        <td>{{ m.exam_name }}</td>
+                        <td>{{ m.subject_name }}</td>
+                        <td>{{ m.marks_obtained }}</td>
+                    </tr>
+                    {% endfor %}
+                    {% if not marks %}
+                    <tr><td colspan="3" class="text-center">No marks recorded yet</td></tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card p-3 mb-3">
+            <h4>Attendance (last 30 days)</h4>
+            <table class="table table-sm table-striped mt-2">
+                <thead><tr><th>Date</th><th>Status</th></tr></thead>
+                <tbody>
+                    {% for a in attendance %}
+                    <tr>
+                        <td>{{ a.date }}</td>
+                        <td>{{ a.status }}</td>
+                    </tr>
+                    {% endfor %}
+                    {% if not attendance %}
+                    <tr><td colspan="2" class="text-center">No attendance recorded yet</td></tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

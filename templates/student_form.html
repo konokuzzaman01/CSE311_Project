@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>{{ student and 'Edit Student' or 'Add Student' }}</h2>
+<form method="POST">
+    <div class="mb-3">
+        <label>Student Name</label>
+        <input type="text" name="student_name" class="form-control" value="{{ student.student_name if student else '' }}" required>
+    </div>
+    <div class="mb-3">
+        <label>Admission No</label>
+        <input type="text" name="admission_no" class="form-control" value="{{ student.admission_no if student else '' }}">
+    </div>
+    <div class="mb-3">
+        <label>Date of Birth</label>
+        <input type="date" name="dob" class="form-control" value="{{ student.dob if student else '' }}">
+    </div>
+    <div class="mb-3">
+        <label>Gender</label>
+        <select name="gender" class="form-select">
+            <option value="Male" {% if student and student.gender=='Male' %}selected{% endif %}>Male</option>
+            <option value="Female" {% if student and student.gender=='Female' %}selected{% endif %}>Female</option>
+            <option value="Other" {% if student and student.gender=='Other' %}selected{% endif %}>Other</option>
+        </select>
+    </div>
+    <div class="mb-3">
+        <label>Phone</label>
+        <input type="text" name="phone" class="form-control" value="{{ student.phone if student else '' }}">
+    </div>
+    <div class="mb-3">
+        <label>Address</label>
+        <textarea name="address" class="form-control">{{ student.address if student else '' }}</textarea>
+    </div>
+    <button class="btn btn-success">Save</button>
+    <a href="{{ url_for('students') }}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}

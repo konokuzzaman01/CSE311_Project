@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Enrollments{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h2 class="fw-bold">Enrollments</h2>
+  <a href="{{ url_for('enrollment_form') }}" class="btn btn-primary">Enroll Student</a>
+</div>
+
+<table class="table table-striped table-hover">
+  <thead class="table-dark">
+    <tr>
+      <th>ID</th>
+      <th>Student</th>
+      <th>Class</th>
+      <th>Section</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for e in enrollments %}
+    <tr>
+      <td>{{ e.enrollment_id }}</td>
+      <td>{{ e.student_name }}</td>
+      <td>{{ e.class_name }}</td>
+      <td>{{ e.section_name }}</td>
+      <td>
+        <form method="post" action="{{ url_for('delete_enrollment', enr_id=e.enrollment_id) }}" style="display:inline;">
+          <button class="btn btn-sm btn-danger" onclick="return confirm('Delete enrollment?')">Delete</button>
+        </form>
+      </td>
+    </tr>
+    {% else %}
+    <tr><td colspan="5">No enrollments found</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

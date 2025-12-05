@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Subjects</h2>
+
+<!-- Add new subject -->
+<form method="POST" action="{{ url_for('add_subject') }}" class="mb-4 row g-2">
+    <div class="col-auto">
+        <input type="text" name="subject_name" class="form-control" placeholder="Subject Name" required>
+    </div>
+    <div class="col-auto">
+        <button class="btn btn-primary">Add Subject</button>
+    </div>
+</form>
+
+<!-- Subjects table -->
+<table class="table table-bordered table-striped">
+    <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Assigned To (Class - Teacher)</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for s in subjects %}
+        <tr>
+            <td>{{ s.subject_id }}</td>
+            <td>{{ s.subject_name }}</td>
+            <td>{{ s.assigned_to or '-' }}</td>
+            <td>
+                <!-- Assign Subject Form -->
+                <form method="POST" action="{{ url_for('assign_subject') }}" class="d-flex gap-1 flex-wrap">
+                    <input type="hidden" name="subject_id" value="{{ s.subject_id }}">
+                    <select name="class_id" class="form-select form-select-sm" required>
+                        <option value="">Select Class</option>
+                        {% for c in classes %}
+                        <option value="{{ c.class_id }}">{{ c.class_name }}</option>
+                        {% endfor %}
+                    </select>
+                    <select name="teacher_id" class="form-select form-select-sm">
+                        <option value="">Select Teacher</option>
+                        {% for t in teachers %}
+                        <option value="{{ t.teacher_id }}">{{ t.teacher_name }}</option>
+                        {% endfor %}
+                    </select>
+                    <button class="btn btn-sm btn-success">Assign</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

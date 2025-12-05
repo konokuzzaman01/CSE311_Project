@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Exams</h2>
+
+<!-- Add Exam Button -->
+<a href="{{ url_for('add_exam') }}" class="btn btn-primary mb-3">Add Exam</a>
+
+<!-- Exams Table -->
+<table class="table table-striped table-bordered">
+    <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Date</th>
+            <th>Class</th>
+            <th>Max Marks</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for ex in exams %}
+        <tr>
+            <td>{{ ex.exam_id }}</td>
+            <td>{{ ex.exam_name }}</td>
+            <td>{{ ex.exam_date or '-' }}</td>
+            <td>{{ ex.class_name }}</td>
+            <td>{{ ex.max_marks }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

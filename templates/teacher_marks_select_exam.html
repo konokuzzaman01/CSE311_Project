@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h3 class="mb-3">Select Exam for Mark Entry</h3>
+
+<p>
+    <b>Class:</b> {{ class_row.class_name }}<br>
+    <b>Subject:</b> {{ subject.subject_name }}
+</p>
+
+<table class="table table-bordered shadow-sm mt-3">
+    <thead>
+        <tr>
+            <th>Exam</th>
+            <th>Date</th>
+            <th>Manage</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for e in exams %}
+        <tr>
+            <td>{{ e.exam_name }}</td>
+            <td>{{ e.exam_date }}</td>
+            <td>
+                <a href="{{ url_for('teacher_manage_marks', exam_id=e.exam_id, subject_id=subject_id) }}"
+                   class="btn btn-primary btn-sm">
+                    Enter Marks
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+        {% if not exams %}
+        <tr>
+            <td colspan="3" class="text-center">No exams found for this class.</td>
+        </tr>
+        {% endif %}
+    </tbody>
+</table>
+
+{% endblock %}

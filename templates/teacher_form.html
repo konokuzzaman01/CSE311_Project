@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>{{ teacher and 'Edit Teacher' or 'Add Teacher' }}</h2>
+<form method="POST">
+    <div class="mb-3">
+        <label>Teacher Name</label>
+        <input type="text" name="teacher_name" class="form-control" value="{{ teacher.teacher_name if teacher else '' }}" required>
+    </div>
+    <div class="mb-3">
+        <label>Email</label>
+        <input type="email" name="email" class="form-control" value="{{ teacher.email if teacher else '' }}">
+    </div>
+    <div class="mb-3">
+        <label>Phone</label>
+        <input type="text" name="phone" class="form-control" value="{{ teacher.phone if teacher else '' }}">
+    </div>
+    <div class="mb-3">
+        <label>Hire Date</label>
+        <input type="date" name="hire_date" class="form-control" value="{{ teacher.hire_date if teacher else '' }}">
+    </div>
+    <button class="btn btn-success">Save</button>
+    <a href="{{ url_for('teachers') }}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}

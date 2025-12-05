@@ -1,0 +1,69 @@
+<!-- templates/marks.html -->
+{% extends "base.html" %}
+{% block title %}Marks - {{ exam.exam_name }}{% endblock %}
+
+{% block content %}
+<h2>Marks for Exam: {{ exam.exam_name }}</h2>
+<p>Class ID: {{ exam.class_id }}, Max Marks: {{ exam.max_marks }}</p>
+
+{% if session.get('teacher_id') %}
+<form method="POST" action="{{ url_for('add_mark') }}">
+    <input type="hidden" name="exam_id" value="{{ exam.exam_id }}">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Student Name</th>
+                <th>Admission No</th>
+                <th>Subject</th>
+                <th>Marks Obtained</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for student in students %}
+                {% for subject in subjects %}
+                {% set existing_mark = None %}
+                {% for m in marks %}
+                    {% if m.student_id == student.student_id and m.subject_id == subject.subject_id %}
+                        {% set existing_mark = m %}
+                        {% break %}
+                    {% endif %}
+                {% endfor %}
+                <tr>
+                    <td>{{ student.student_name }}</td>
+                    <td>{{ student.admission_no }}</td>
+                    <td>{{ subject.subject_name }}</td>
+                    <td>
+                        <input type="hidden" name="student_id" value="{{ student.student_id }}">
+                        <input type="hidden" name="subject_id" value="{{ subject.subject_id }}">
+                        <input type="number" name="marks_obtained" min="0" max="{{ exam.max_marks }}" value="{{ existing_mark.marks_obtained if existing_mark else '' }}">
+                    </td>
+                </tr>
+                {% endfor %}
+            {% endfor %}
+        </tbody>
+    </table>
+    <button class="btn btn-primary" type="submit">Save Marks</button>
+</form>
+{% else %}
+<!-- Student view: read-only -->
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Subject</th>
+            <th>Marks Obtained</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for m in marks %}
+        <tr>
+            <td>{{ m.subject_name }}</td>
+            <td>{{ m.marks_obtained }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+
+<a href="{{ url_for('download_marks', exam_id=exam.exam_id) }}" class="btn btn-success mt-3">Download CSV</a>
+<a href="{{ url_for('exams') }}" class="btn btn-secondary mt-3">Back to Exams</a>
+{% endblock %}

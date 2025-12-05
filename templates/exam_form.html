@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Add Exam</h2>
+<form method="POST" class="row g-3">
+    <div class="col-md-6">
+        <label class="form-label">Exam Name</label>
+        <input type="text" name="exam_name" class="form-control" required>
+    </div>
+    <div class="col-md-6">
+        <label class="form-label">Exam Date</label>
+        <input type="date" name="exam_date" class="form-control">
+    </div>
+    <div class="col-md-6">
+        <label class="form-label">Class</label>
+        <select name="class_id" class="form-select" required>
+            <option value="">Select Class</option>
+            {% for c in classes %}
+            <option value="{{ c.class_id }}">{{ c.class_name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="col-md-6">
+        <label class="form-label">Max Marks</label>
+        <input type="number" name="max_marks" class="form-control" value="100">
+    </div>
+    <div class="col-12">
+        <button class="btn btn-success">Create Exam</button>
+    </div>
+</form>
+{% endblock %}

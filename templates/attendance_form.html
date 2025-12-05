@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}{{ 'Edit' if attendance else 'Add' }} Attendance{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h2>{{ 'Edit' if attendance else 'Add' }} Attendance</h2>
+
+    <form method="POST">
+
+        <label for="student_id">Student</label>
+        <select id="student_id" name="student_id" required>
+            <option value="">-- Select Student --</option>
+            {% for s in students %}
+                <option value="{{ s.student_id }}"
+                    {% if attendance and attendance.student_id == s.student_id %} selected {% endif %}>
+                    {{ s.name }} (ID: {{ s.student_id }})
+                </option>
+            {% endfor %}
+        </select>
+
+        <label for="date">Date</label>
+        <input
+            type="date"
+            id="date"
+            name="date"
+            value="{{ attendance.date if attendance else '' }}"
+            required
+        >
+
+        <label for="status">Status</label>
+        <select id="status" name="status" required>
+            <option value="Present" {% if attendance and attendance.status == 'Present' %}selected{% endif %}>Present</option>
+            <option value="Absent" {% if attendance and attendance.status == 'Absent' %}selected{% endif %}>Absent</option>
+            <option value="Late" {% if attendance and attendance.status == 'Late' %}selected{% endif %}>Late</option>
+        </select>
+
+        <button type="submit" class="btn-submit">Save</button>
+
+    </form>
+
+    <a href="{{ url_for('attendance') }}" class="back-link">← Back</a>
+</div>
+{% endblock %}

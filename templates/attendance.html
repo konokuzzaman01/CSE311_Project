@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Attendance for {{ class_info.class_name }}</h2>
+
+<form method="POST">
+    <div class="mb-3">
+        <label class="form-label">Date</label>
+        <input type="date" name="date" class="form-control" value="{{ today }}">
+    </div>
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>Student</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for st in students %}
+            <tr>
+                <td>{{ st.student_name }}</td>
+                <td>
+                    <input type="hidden" name="student_id" value="{{ st.student_id }}">
+                    {% if attendance_map[st.student_id] is defined %}
+                        {% set status = attendance_map[st.student_id].status %}
+                    {% else %}
+                        {% set status = 'Present' %}
+                    {% endif %}
+                    <select name="status_{{ st.student_id }}" class="form-select">
+                        <option value="Present" {% if status == 'Present' %}selected{% endif %}>Present</option>
+                        <option value="Absent"  {% if status == 'Absent' %}selected{% endif %}>Absent</option>
+                        <option value="Late"    {% if status == 'Late' %}selected{% endif %}>Late</option>
+                    </select>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <button class="btn btn-success">Save Attendance</button>
+</form>
+
+<a href="{{ url_for('download_attendance', class_id=class_info.class_id) }}" class="btn btn-info mt-3">Download Attendance CSV</a>
+{% endblock %}

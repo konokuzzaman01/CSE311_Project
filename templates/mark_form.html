@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}Add / Edit Mark{% endblock %}
+
+{% block content %}
+<h2 class="fw-bold mb-3">{{ 'Edit Mark' if mark else 'Add Mark' }}</h2>
+
+<form method="POST" action="{{ url_for('add_mark') }}">
+  <input type="hidden" name="exam_id" value="{{ exam_id if exam_id else '' }}">
+
+  <div class="row g-3">
+    <div class="col-md-4">
+      <label class="form-label">Exam</label>
+      <select name="exam_id" class="form-control" required>
+        <option value="">Select Exam</option>
+        {% for e in exams %}
+          <option value="{{ e.exam_id }}" {% if mark and mark.exam_id == e.exam_id or exam_id==e.exam_id %}selected{% endif %}>{{ e.exam_name }} ({{ e.class_name }})</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="col-md-4">
+      <label class="form-label">Student</label>
+      <select name="student_id" class="form-control" required>
+        <option value="">Select Student</option>
+        {% for s in students %}
+          <option value="{{ s.student_id }}" {% if mark and mark.student_id == s.student_id %}selected{% endif %}>{{ s.student_name or s.name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="col-md-4">
+      <label class="form-label">Subject</label>
+      <select name="subject_id" class="form-control" required>
+        <option value="">Select Subject</option>
+        {% for subj in subjects %}
+          <option value="{{ subj.subject_id }}" {% if mark and mark.subject_id == subj.subject_id %}selected{% endif %}>{{ subj.subject_name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="col-md-4">
+      <label class="form-label">Marks Obtained</label>
+      <input type="number" step="0.01" min="0" name="marks_obtained" class="form-control"
+             value="{{ mark.marks_obtained if mark else '' }}" required>
+    </div>
+
+    <div class="col-12">
+      <button class="btn btn-success">Save Mark</button>
+      <a href="{{ url_for('exams') }}" class="btn btn-outline-secondary">Cancel</a>
+    </div>
+  </div>
+</form>
+{% endblock %}

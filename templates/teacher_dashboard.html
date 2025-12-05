@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% block content %}
+<h2 class="mb-4">Teacher Dashboard</h2>
+
+<div class="row g-3">
+
+    <div class="col-md-2 col-sm-4 col-6">
+        <div class="card text-center p-3 shadow-sm">
+            <h6>Students</h6>
+            <p class="fs-4">{{ students_count or 0 }}</p>
+            <a href="{{ url_for('students') }}" class="btn btn-sm btn-primary">Manage</a>
+        </div>
+    </div>
+
+    <div class="col-md-2 col-sm-4 col-6">
+        <div class="card text-center p-3 shadow-sm">
+            <h6>Teachers</h6>
+            <p class="fs-4">{{ teachers_count or 0 }}</p>
+            <a href="{{ url_for('teachers') }}" class="btn btn-sm btn-primary">Manage</a>
+        </div>
+    </div>
+
+    <div class="col-md-2 col-sm-4 col-6">
+        <div class="card text-center p-3 shadow-sm">
+            <h6>Subjects</h6>
+            <p class="fs-4">{{ subjects_count or 0 }}</p>
+            <a href="{{ url_for('subjects') }}" class="btn btn-sm btn-primary">Manage</a>
+        </div>
+    </div>
+
+    <div class="col-md-2 col-sm-4 col-6">
+        <div class="card text-center p-3 shadow-sm">
+            <h6>Exams</h6>
+            <p class="fs-4">{{ exams_count or 0 }}</p>
+            <a href="{{ url_for('exams') }}" class="btn btn-sm btn-primary">Manage</a>
+        </div>
+    </div>
+
+    <div class="col-md-2 col-sm-4 col-6">
+        <div class="card text-center p-3 shadow-sm">
+            <h6>Classes</h6>
+            <p class="fs-4">{{ classes_count or 0 }}</p>
+            <a href="{{ url_for('classes') }}" class="btn btn-sm btn-primary">Manage</a>
+        </div>
+    </div>
+
+</div>
+
+<!-- Assignment Table -->
+<h4 class="mt-5">Your Subject Assignments</h4>
+<table class="table table-striped shadow-sm mt-2">
+    <thead>
+        <tr>
+            <th>Class</th>
+            <th>Subject</th>
+            <th>Assigned Teacher</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        {% for sa in assigns %}
+        <tr>
+            <td>{{ sa.class_name }}</td>
+            <td>{{ sa.subject_name }}</td>
+            <td>{{ sa.teacher_name or 'Not Assigned' }}</td>
+            <td class="d-flex gap-2">
+
+                <a href="{{ url_for('attendance', class_id=sa.class_id) }}"
+                   class="btn btn-sm btn-primary">
+                    Manage Attendance
+                </a>
+
+                <a href="{{ url_for('teacher_marks_select_exam', class_id=sa.class_id, subject_id=sa.subject_id) }}"
+                   class="btn btn-sm btn-success">
+                    Manage Marks
+                </a>
+
+            </td>
+        </tr>
+        {% endfor %}
+
+        {% if not assigns %}
+        <tr>
+            <td colspan="4" class="text-center">No assignments yet</td>
+        </tr>
+        {% endif %}
+
+    </tbody>
+</table>
+{% endblock %}

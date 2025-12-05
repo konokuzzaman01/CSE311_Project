@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Subject Form{% endblock %}
+
+{% block content %}
+<h2 class="fw-bold mb-3">{{ 'Edit Subject' if subject else 'Add Subject' }}</h2>
+
+<form method="POST">
+  <div class="mb-3">
+    <label class="form-label">Subject Name</label>
+    <input type="text" name="subject_name" class="form-control" required
+           value="{{ subject.subject_name if subject else '' }}" placeholder="e.g., Mathematics">
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Assign to Class</label>
+    <select name="class_id" class="form-control">
+      <option value="">-- Select (optional) --</option>
+      {% for c in classes %}
+        <option value="{{ c.class_id }}" {% if subject and subject.class_id == c.class_id %}selected{% endif %}>{{ c.class_name }}</option>
+      {% endfor %}
+    </select>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Assign Teacher</label>
+    <select name="teacher_id" class="form-control">
+      <option value="">-- Select (optional) --</option>
+      {% for t in teachers %}
+        <option value="{{ t.teacher_id }}" {% if subject and subject.teacher_id == t.teacher_id %}selected{% endif %}>{{ t.teacher_name }}</option>
+      {% endfor %}
+    </select>
+  </div>
+
+  <button class="btn btn-success">{{ 'Update' if subject else 'Add' }}</button>
+  <a href="{{ url_for('subjects') }}" class="btn btn-outline-secondary">Back</a>
+</form>
+{% endblock %}

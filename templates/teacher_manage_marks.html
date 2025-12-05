@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h3 class="mb-3">Enter Marks</h3>
+
+<div class="mb-3">
+    <p><b>Exam:</b> {{ exam.exam_name }}</p>
+    <p><b>Subject:</b> {{ subject.subject_name }}</p>
+</div>
+
+<form method="POST">
+    <table class="table table-striped shadow-sm">
+        <thead>
+            <tr>
+                <th>Student Name</th>
+                <th width="150px">Marks</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for st in students %}
+            <tr>
+                <td>{{ st.student_name }}</td>
+                <td>
+                    <input type="number" step="0.01" min="0"
+                           name="marks_{{ st.student_id }}"
+                           value="{{ mark_map.get(st.student_id, '') }}"
+                           class="form-control">
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <button type="submit" class="btn btn-success mt-3">Save Marks</button>
+    <a href="{{ url_for('teacher_dashboard') }}" class="btn btn-secondary mt-3">Cancel</a>
+</form>
+
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Edit Section' if section else 'Add Section' }}{% endblock %}
+
+{% block content %}
+<h2 class="fw-bold mb-3">{{ 'Edit Section' if section else 'Add Section' }}</h2>
+
+<form method="POST">
+  <div class="mb-3">
+    <label class="form-label">Section Name</label>
+    <input type="text" name="section_name" class="form-control" required
+           value="{{ section.section_name if section else '' }}" placeholder="e.g., A">
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label">Class</label>
+    <select name="class_id" class="form-control" required>
+      <option value="">Select Class</option>
+      {% for c in classes %}
+        <option value="{{ c.class_id }}" {% if section and section.class_id == c.class_id %}selected{% endif %}>{{ c.class_name }}</option>
+      {% endfor %}
+    </select>
+  </div>
+
+  <button class="btn btn-success">{{ 'Update' if section else 'Create' }}</button>
+  <a href="{{ url_for('sections') }}" class="btn btn-outline-secondary">Cancel</a>
+</form>
+{% endblock %}
